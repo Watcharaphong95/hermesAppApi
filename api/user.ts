@@ -24,7 +24,7 @@ router.get('/search/:phone', (req, res) => {
     let sql = 'SELECT * FROM user WHERE phone LIKE ?';
 
     sql = mysql.format(sql, [
-        '%${phone}%'
+        `${phone}%`
     ]);
 
     conn.query(sql, (err, result) => {
