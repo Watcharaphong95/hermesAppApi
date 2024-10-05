@@ -31,7 +31,7 @@ router.get('/search/:phone', (req, res) => {
         if(err) {
             res.status(400).json({msg: err.message});
         } else {
-            res.status(201).json({result});
+            res.status(201).json(result);
         }
     })
 });
