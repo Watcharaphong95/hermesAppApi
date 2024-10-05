@@ -5,6 +5,19 @@ import { RiderRegisterReq } from "../models/Request/rider_register_req";
 
 export const router = express.Router();
 
+// select all rider
+router.get('/', (req, res) => {
+    let sql = 'SELECT * FROM rider';
+
+    conn.query(sql, (err, result) => {
+        if(err) {
+            res.status(400).json({msg: err.message});
+        } else {
+            res.status(201).json({result});
+        }
+    })
+});
+
 // register for user
 router.post('/register', (req, res)=>{
     let riders: RiderRegisterReq = req.body;

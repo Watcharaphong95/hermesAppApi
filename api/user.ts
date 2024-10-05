@@ -5,6 +5,19 @@ import { UserRegisterReq } from "../models/Request/user_register_req";
 
 export const router = express.Router();
 
+// select all user
+router.get('/', (req, res) => {
+    let sql = 'SELECT * FROM user';
+
+    conn.query(sql, (err, result) => {
+        if(err) {
+            res.status(400).json({msg: err.message});
+        } else {
+            res.status(201).json({result});
+        }
+    })
+});
+
 // register for user
 router.post('/register', (req, res)=>{
     let users: UserRegisterReq = req.body;
