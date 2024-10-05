@@ -18,6 +18,24 @@ router.get('/', (req, res) => {
     })
 });
 
+// select user by some phone
+router.get('/search/:phone', (req, res) => {
+    let phone = req.params.phone;
+    let sql = 'SELECT * FROM user WHERE phone LIKE ?';
+
+    sql = mysql.format(sql, [
+        '%${phone}%'
+    ]);
+
+    conn.query(sql, (err, result) => {
+        if(err) {
+            res.status(400).json({msg: err.message});
+        } else {
+            res.status(201).json({result});
+        }
+    })
+});
+
 // register for user
 router.post('/register', (req, res)=>{
     let users: UserRegisterReq = req.body;
