@@ -7,6 +7,11 @@
   "name": "node_hermes_app",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
   "dependencies": {
     "@types/express": "^5.0.0",
     "acorn": "^8.12.1",
@@ -66,9 +71,6 @@
     "wrappy": "^1.0.2",
     "xtend": "^4.0.2",
     "yn": "^3.1.1"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
