@@ -28,7 +28,7 @@ router.get('/customer/:uid', (req, res) => {
 // select user by some phone
 router.get('/customer/search/:phone', (req, res) => {
     let phone = req.params.phone;
-    let sql = 'SELECT * FROM user WHERE phone LIKE ?';
+    let sql = 'SELECT * FROM user WHERE phone LIKE ? AND type = 1';
 
     sql = mysql.format(sql, [
         `${phone}%`
@@ -88,14 +88,14 @@ router.post('/registerRider', (req, res)=>{
     })
 });
 
-// Get user
+// Get customer
 router.get("/customer", (req, res) => {
-    conn.query('SELECT * FROM user', (err, result, fields)=>{
+    conn.query('SELECT * FROM user WHERE type = 1', (err, result, fields)=>{
       res.json(result);
     });
   });
 
-// Get user
+// Get rider
 router.get("/rider", (req, res) => {
     conn.query('SELECT * FROM user WHERE type != 1', (err, result, fields)=>{
       res.json(result);
