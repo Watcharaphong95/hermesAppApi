@@ -9,11 +9,12 @@ export const router = express.Router();
 router.post('/register', (req, res)=>{
     let riders: RiderRegisterReq = req.body;
 
-    let sql = "INSERT INTO rider (phone, name, password, plate) VALUES (?,?,?,?)";
+    let sql = "INSERT INTO rider (phone, name, password, picture, plate) VALUES (?,?,?,?,?)";
     sql = mysql.format(sql, [
         riders.phone,
         riders.name,
         riders.password,
+        riders.picture,
         riders.plate
     ]);
     conn.query(sql, (err, result) => {
@@ -24,3 +25,10 @@ router.post('/register', (req, res)=>{
         }
     })
 });
+
+// Get user
+router.get("/", (req, res) => {
+    conn.query('SELECT * FROM rider', (err, result, fields)=>{
+      res.json(result);
+    });
+  });

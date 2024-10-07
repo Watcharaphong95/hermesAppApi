@@ -8,6 +8,7 @@ export interface RiderRegisterReq {
     phone:    string;
     name:     string;
     password: string;
+    picture : string;
     plate:    string;
 }
 
