@@ -18,6 +18,25 @@ router.get('/', (req, res) => {
     })
 });
 
+// select user by uid
+router.get('/:uid', (req, res) => {
+    let uid = req.params.uid;
+
+    let sql = 'SELECT * FROM user WHERE uid = ?'
+
+    sql = mysql.format(sql, [
+        uid
+    ])
+
+    conn.query(sql, (err, result) => {
+        if(err) {
+            res.status(400).json({msg: err.message});
+        } else {
+            res.status(201).json(result);
+        }
+    })
+});
+
 // select user by some phone
 router.get('/search/:phone', (req, res) => {
     let phone = req.params.phone;
