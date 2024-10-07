@@ -76,7 +76,8 @@ router.post('/registerRider', (req, res)=>{
         riders.name,
         riders.password,
         riders.picture,
-        riders.plate
+        riders.plate,
+        riders.type
     ]);
     conn.query(sql, (err, result) => {
         if(err) {

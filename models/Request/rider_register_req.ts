@@ -10,6 +10,7 @@ export interface RiderRegisterReq {
     password: string;
     picture : string;
     plate:    string;
+    type:     string
 }
 
 // Converts JSON strings to/from your types
