@@ -87,14 +87,14 @@ router.post('/registerRider', (req, res)=>{
     })
 });
 
-// Get user
+// Get customer
 router.get("/customer", (req, res) => {
-    conn.query('SELECT * FROM user', (err, result, fields)=>{
+    conn.query('SELECT * FROM user WHERE type = 1', (err, result, fields)=>{
       res.json(result);
     });
   });
 
-// Get user
+// Get rider
 router.get("/rider", (req, res) => {
     conn.query('SELECT * FROM user WHERE type != 1', (err, result, fields)=>{
       res.json(result);
