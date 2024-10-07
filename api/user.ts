@@ -28,7 +28,7 @@ router.get('/customer/:uid', (req, res) => {
 // select user by some phone
 router.get('/customer/search/:phone', (req, res) => {
     let phone = req.params.phone;
-    let sql = 'SELECT * FROM user WHERE phone LIKE ?';
+    let sql = 'SELECT * FROM user WHERE phone LIKE ? AND type = 1';
 
     sql = mysql.format(sql, [
         `${phone}%`
