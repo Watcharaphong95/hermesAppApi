@@ -101,3 +101,16 @@ router.get("/rider", (req, res) => {
       res.json(result);
     });
   });
+
+// login user
+router.post("/login", (req, res) => {
+    const { phone, password } = req.body
+    const query = mysql.format('SELECT * FROM user WHERE phone = ? AND password = ?', [phone, password]);
+    conn.query(query, (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(400).json({ msg: err.message });
+        }
+        res.json(result[0]); 
+    });
+  });
