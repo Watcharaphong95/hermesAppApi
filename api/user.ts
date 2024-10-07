@@ -77,3 +77,10 @@ router.post('/register', (req, res)=>{
         }
     })
 });
+
+// Get user
+router.get("/", (req, res) => {
+    conn.query('SELECT * FROM user', (err, result, fields)=>{
+      res.json(result);
+    });
+  });
