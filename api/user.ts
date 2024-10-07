@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
         if(err) {
             res.status(400).json({msg: err.message});
         } else {
-            res.status(201).json({result});
+            res.json({result});
         }
     })
 });
@@ -32,7 +32,7 @@ router.get('/:uid', (req, res) => {
         if(err) {
             res.status(400).json({msg: err.message});
         } else {
-            res.status(201).json(result);
+            res.json(result);
         }
     })
 });
@@ -50,7 +50,7 @@ router.get('/search/:phone', (req, res) => {
         if(err) {
             res.status(400).json({msg: err.message});
         } else {
-            res.status(201).json(result);
+            res.json(result);
         }
     })
 });
@@ -73,7 +73,7 @@ router.post('/register', (req, res)=>{
         if(err) {
             res.status(400).json({msg: err.message});
         } else {
-            res.status(201).json({affected_rows: result.affectedRows, last_idx: result.insertId});
+            res.json({affected_rows: result.affectedRows, last_idx: result.insertId});
         }
     })
 });
