@@ -44,7 +44,7 @@ router.get('/customer/search/:phone', (req, res) => {
 });
 
 // register for user
-router.post('/registerUser', (req, res)=>{
+router.post('/register', (req, res)=>{
     let users: UserRegisterReq = req.body;
 
     let sql = "INSERT INTO user (phone, name, password, address, lat, lng, picture) VALUES (?,?,?,?,?,?,?)";
@@ -67,26 +67,26 @@ router.post('/registerUser', (req, res)=>{
 });
 
 // register for user
-router.post('/registerRider', (req, res)=>{
-    let riders: RiderRegisterReq = req.body;
+// router.post('/registerRider', (req, res)=>{
+//     let riders: RiderRegisterReq = req.body;
 
-    let sql = "INSERT INTO user (phone, name, password, picture, plate, type) VALUES (?,?,?,?,?,?)";
-    sql = mysql.format(sql, [
-        riders.phone,
-        riders.name,
-        riders.password,
-        riders.picture,
-        riders.plate,
-        riders.type
-    ]);
-    conn.query(sql, (err, result) => {
-        if(err) {
-            res.status(400).json({msg: err.message});
-        } else {
-            res.json({affected_rows: result.affectedRows, last_idx: result.insertId});
-        }
-    })
-});
+//     let sql = "INSERT INTO user (phone, name, password, picture, plate, type) VALUES (?,?,?,?,?,?)";
+//     sql = mysql.format(sql, [
+//         riders.phone,
+//         riders.name,
+//         riders.password,
+//         riders.picture,
+//         riders.plate,
+//         riders.type
+//     ]);
+//     conn.query(sql, (err, result) => {
+//         if(err) {
+//             res.status(400).json({msg: err.message});
+//         } else {
+//             res.json({affected_rows: result.affectedRows, last_idx: result.insertId});
+//         }
+//     })
+// });
 
 // Get customer
 router.get("/customer", (req, res) => {
@@ -95,22 +95,55 @@ router.get("/customer", (req, res) => {
     });
   });
 
-// Get rider
-router.get("/rider", (req, res) => {
-    conn.query('SELECT * FROM user WHERE type != 1', (err, result, fields)=>{
-      res.json(result);
-    });
-  });
-
 // login user
 router.post("/login", (req, res) => {
     const { phone, password } = req.body
-    const query = mysql.format('SELECT * FROM user WHERE phone = ? AND password = ?', [phone, password]);
-    conn.query(query, (err, result) => {
-        if (err) {
-            console.error(err);
-            return res.status(400).json({ msg: err.message });
-        }
-        res.json(result[0]); 
-    });
+
+    let sql = `
+      SELECT uid, phone, password, type
+      from user
+      where phone = ?
+      and password = ?
+
+      UNION 
+
+      SELECT rid, phone, password, type
+      from rider
+      where phone = ? 
+      and password = ?
+    `;
+
+    sql = mysql.format(sql, [
+        phone,
+        password,
+        phone,
+        password
+    ])
+
+    conn.query(sql, (err, result) => {
+        res.json(result);
+    })
+
+
+    // const query = mysql.format('SELECT * FROM user WHERE phone = ? AND password = ?', [phone, password]);
+    // conn.query(query, (err, result) => {
+    //     if (err) {
+    //         console.error(err);
+    //         return res.status(400).json({ msg: err.message });
+    //     }
+    //     res.json(result[0]); 
+    // });
   });
+
+// delete user from uid
+router.delete("/delete", (req, res) => {
+    let sql = 'DELETE FROM user WHERE uid = 16';
+
+    conn.query(sql, (err, result) => {
+        if(err){
+            res.status(400).json(err.message);
+        }else{
+            res.json(result);
+        }
+    })
+});

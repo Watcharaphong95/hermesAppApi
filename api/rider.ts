@@ -21,6 +21,8 @@ router.get('/', (req, res) => {
 // register for user
 router.post('/register', (req, res)=>{
     let riders: RiderRegisterReq = req.body;
+    console.log(riders);
+    
 
     let sql = "INSERT INTO rider (phone, name, password, picture, plate) VALUES (?,?,?,?,?)";
     sql = mysql.format(sql, [
