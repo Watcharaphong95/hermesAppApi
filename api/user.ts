@@ -7,7 +7,7 @@ import { RiderRegisterReq } from "../models/Request/rider_register_req";
 export const router = express.Router();
 
 // select user by uid
-router.get('/customer/:uid', (req, res) => {
+router.get('/:uid', (req, res) => {
     let uid = req.params.uid;
 
     let sql = 'SELECT * FROM user WHERE uid = ?'
@@ -26,7 +26,7 @@ router.get('/customer/:uid', (req, res) => {
 });
 
 // select user by some phone
-router.get('/customer/search/:phone', (req, res) => {
+router.get('/search/:phone', (req, res) => {
     let phone = req.params.phone;
     let sql = 'SELECT * FROM user WHERE phone LIKE ? AND type = 1';
 
@@ -66,30 +66,8 @@ router.post('/register', (req, res)=>{
     })
 });
 
-// register for user
-// router.post('/registerRider', (req, res)=>{
-//     let riders: RiderRegisterReq = req.body;
-
-//     let sql = "INSERT INTO user (phone, name, password, picture, plate, type) VALUES (?,?,?,?,?,?)";
-//     sql = mysql.format(sql, [
-//         riders.phone,
-//         riders.name,
-//         riders.password,
-//         riders.picture,
-//         riders.plate,
-//         riders.type
-//     ]);
-//     conn.query(sql, (err, result) => {
-//         if(err) {
-//             res.status(400).json({msg: err.message});
-//         } else {
-//             res.json({affected_rows: result.affectedRows, last_idx: result.insertId});
-//         }
-//     })
-// });
-
 // Get customer
-router.get("/customer", (req, res) => {
+router.get("/", (req, res) => {
     conn.query('SELECT * FROM user WHERE type = 1', (err, result, fields)=>{
       res.json(result);
     });
@@ -136,14 +114,14 @@ router.post("/login", (req, res) => {
   });
 
 // delete user from uid
-router.delete("/delete", (req, res) => {
-    let sql = 'DELETE FROM user WHERE uid = 16';
+// router.delete("/delete", (req, res) => {
+//     let sql = 'DELETE FROM user WHERE uid = 16';
 
-    conn.query(sql, (err, result) => {
-        if(err){
-            res.status(400).json(err.message);
-        }else{
-            res.json(result);
-        }
-    })
-});
+//     conn.query(sql, (err, result) => {
+//         if(err){
+//             res.status(400).json(err.message);
+//         }else{
+//             res.json(result);
+//         }
+//     })
+// });
