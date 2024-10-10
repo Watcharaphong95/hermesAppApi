@@ -100,14 +100,14 @@ router.post("/login", (req, res) => {
     const { phone, password } = req.body
 
     let sql = `
-      SELECT uid, phone, password, type
+      SELECT uid, NULL AS rid, phone, password, type
       from user
       where phone = ?
       and password = ?
 
       UNION 
 
-      SELECT rid, phone, password, type
+      SELECT NULL AS uid, rid, phone, password, type
       from rider
       where phone = ? 
       and password = ?
