@@ -125,3 +125,57 @@ router.post("/login", (req, res) => {
 //         }
 //     })
 // });
+
+router.put("/update/:uid", (req, res) => {
+    const uid = req.params.uid; 
+    const users = req.body; 
+
+    // คำสั่ง SELECT เพื่อตรวจสอบว่ามีผู้ใช้ที่มี uid นี้หรือไม่
+    const selectSql = `SELECT * FROM user WHERE uid = ?`;
+    
+    conn.query(selectSql, [uid], (err, results) => {
+        if (err) {
+            return res.status(400).json({ msg: err.message });
+        }
+
+        // ตรวจสอบว่ามีผลลัพธ์จากการ SELECT หรือไม่
+        if (results.length === 0) {
+            return res.status(404).json({ msg: "User not found" });
+        }
+
+        // ถ้าพบผู้ใช้ ให้ทำการ UPDATE ข้อมูล
+        const updateSql = `
+        UPDATE user 
+        SET 
+            name = ?, 
+            password = ?, 
+            address = ?, 
+            lat = ?, 
+            lng = ?, 
+            picture = ? 
+        WHERE uid = ?`; // เปลี่ยนจาก id เป็น uid
+
+        const formattedUpdateSql = mysql.format(updateSql, [
+            users.name,
+            users.password,
+            users.address,
+            users.lat,
+            users.lng,
+            users.picture,
+            uid // ใช้ uid ให้สอดคล้องกัน
+        ]);
+
+        // ทำการ UPDATE ข้อมูล
+        conn.query(formattedUpdateSql, (err, result) => {
+            if (err) {
+                return res.status(400).json({ msg: err.message });
+            } else {
+                res.json({ affected_rows: result.affectedRows });
+            }
+        });
+    });
+});
+
+
+
+
