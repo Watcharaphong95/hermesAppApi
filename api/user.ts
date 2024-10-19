@@ -148,7 +148,6 @@ router.put("/update/:uid", (req, res) => {
         UPDATE user 
         SET 
             name = ?, 
-            password = ?, 
             address = ?, 
             lat = ?, 
             lng = ?, 
@@ -157,7 +156,6 @@ router.put("/update/:uid", (req, res) => {
 
         const formattedUpdateSql = mysql.format(updateSql, [
             users.name,
-            users.password,
             users.address,
             users.lat,
             users.lng,
